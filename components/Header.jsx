@@ -98,7 +98,7 @@ const Header = () => {
             <SignInButton>
               <Button variant="outline" className="cursor-pointer">
                 <LogIn className="size-4" />
-                <span className="hidden md:block">Sign In</span>
+                <span className="">Sign In</span>
               </Button>
             </SignInButton>
           </SignedOut>
