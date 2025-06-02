@@ -1,12 +1,22 @@
-import { Button } from "@/components/ui/button";
-import { Divide } from "lucide-react";
-import Image from "next/image";
+import Features from "@/components/landingPage/Features";
+import HeroSection from "@/components/landingPage/HeroSection";
+import Statistics from "@/components/landingPage/Statistics";
+import HowItsWork from "@/components/landingPage/HowItsWork";
+import Testimonials from "@/components/landingPage/Testimonials";
+import Faq from "@/components/landingPage/Faq";
+import Cta from "@/components/landingPage/Cta";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen gap-8">
-      <h1 className="text-4xl font-bold">Hello World</h1>
-      <Button>Click me</Button>
-    </div>
+    <>
+      <div className="grid-background"></div>
+      <HeroSection />
+      <Features />
+      <Statistics />
+      <HowItsWork />
+      <Testimonials />
+      <Faq />
+      <Cta />
+    </>
   );
 }
