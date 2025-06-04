@@ -1,9 +1,5 @@
 import { SignIn } from "@clerk/nextjs";
 
 export default function SignInPage() {
-  return (
-    <div className="min-h-screen">
-      <SignIn />
-    </div>
-  );
+  return <SignIn />;
 }
