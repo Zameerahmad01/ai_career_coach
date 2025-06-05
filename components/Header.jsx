@@ -1,10 +1,4 @@
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-  UserButton,
-} from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import {
   ChevronDownIcon,
   FileText,
@@ -12,7 +6,6 @@ import {
   LayoutDashboard,
   LogIn,
   MessageCircleIcon,
-  StarIcon,
   StarsIcon,
 } from "lucide-react";
 import Image from "next/image";
@@ -23,12 +16,13 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { checkUser } from "@/lib/checkUser";
 
-const Header = () => {
+const Header = async () => {
+  const user = await checkUser();
+
   return (
     <header className="fixed top-0 w-full z-50 border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
       <nav className="container mx-auto h-16 px-4 flex items-center justify-between">
