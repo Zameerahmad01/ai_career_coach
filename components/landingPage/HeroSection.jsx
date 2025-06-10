@@ -43,7 +43,7 @@ const HeroSection = () => {
         </div>
         {/* cta buttons */}
         <div className="flex items-center justify-center space-x-4">
-          <Link href="/sign-in">
+          <Link href="/dashboard">
             <Button className="text-lg cursor-pointer px-8 py-6">
               Get Started
             </Button>

@@ -75,10 +75,7 @@ const Header = async () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   {" "}
-                  <Link
-                    href="/ai-interview"
-                    className="flex items-center gap-2"
-                  >
+                  <Link href="/interview" className="flex items-center gap-2">
                     <GraduationCap className="size-4" />
                     <span className="">Interview Prep</span>
                   </Link>
