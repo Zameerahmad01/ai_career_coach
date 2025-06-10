@@ -1,16 +1,15 @@
-import { industries } from "@/data/industries";
-import { getUserOnboardingStatus } from "@/actions/user";
-import { redirect } from "next/navigation";
-import OnboardingForm from "./_components/OnboardingForm";
+export const dynamic = "force-dynamic";
 
-const Onboarding = async () => {
-  const { isOnboarded } = await getUserOnboardingStatus();
-  if (isOnboarded) {
-    redirect("/dashboard");
-  }
+import { industries } from "@/data/industries";
+import OnboardingForm from "./_components/OnboardingForm";
+import AuthCheck from "./_components/AuthCheck";
+
+const Onboarding = () => {
   return (
     <main>
-      <OnboardingForm industries={industries} />
+      <AuthCheck>
+        <OnboardingForm industries={industries} />
+      </AuthCheck>
     </main>
   );
 };
