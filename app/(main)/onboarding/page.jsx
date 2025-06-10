@@ -1,15 +1,18 @@
-export const dynamic = "force-dynamic";
-
 import { industries } from "@/data/industries";
+import { getUserOnboardingStatus } from "@/actions/user";
+import { redirect } from "next/navigation";
 import OnboardingForm from "./_components/OnboardingForm";
-import AuthCheck from "./_components/AuthCheck";
 
-const Onboarding = () => {
+const Onboarding = async () => {
+  // Check if the user is already onboarded
+  // If they are, redirect them to the dashboard
+  const { isOnboarded } = await getUserOnboardingStatus();
+  if (isOnboarded) {
+    redirect("/dashboard");
+  }
   return (
     <main>
-      <AuthCheck>
-        <OnboardingForm industries={industries} />
-      </AuthCheck>
+      <OnboardingForm industries={industries} />
     </main>
   );
 };
