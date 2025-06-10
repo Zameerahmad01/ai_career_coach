@@ -5,8 +5,8 @@ import { db } from "@/lib/prisma";
 import { generateAIInsights } from "./dashboard";
 
 export async function updateUser(data) {
+  const { userId } = await auth();
   try {
-    const { userId } = await auth();
     if (!userId) {
       throw new Error("Unauthorized");
     }
@@ -74,8 +74,8 @@ export async function updateUser(data) {
 }
 
 export async function getUserOnboardingStatus() {
+  const { userId } = await auth();
   try {
-    const { userId } = await auth();
     if (!userId) {
       throw new Error("Unauthorized");
     }
