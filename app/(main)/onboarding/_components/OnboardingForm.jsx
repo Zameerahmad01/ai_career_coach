@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { onboardingSchema } from "../../../lib/schema";
@@ -26,7 +26,6 @@ import { Button } from "@/components/ui/button";
 import { updateUser } from "@/actions/user";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import useFetch from "@/hooks/use-fetch";
 import { useMutation } from "@tanstack/react-query";
 
 const OnboardingForm = ({ industries }) => {
