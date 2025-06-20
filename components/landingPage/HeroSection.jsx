@@ -62,7 +62,7 @@ const HeroSection = () => {
         <div className="hero-image-wrapper">
           <div ref={imageRef} className="hero-image flex justify-center">
             <Image
-              src="/banner.jpeg"
+              src="/dashboard.png"
               alt="banner image"
               width={1200}
               height={720}
