@@ -13,8 +13,8 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "SensAI",
-  description: "SensAI is a platform for AI-powered career coaching",
+  title: "ZenAI",
+  description: "ZenAI is a platform for AI-powered career coaching",
 };
 
 export default function RootLayout({ children }) {
