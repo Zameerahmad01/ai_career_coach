@@ -44,9 +44,25 @@ export async function generateQuiz() {
     const result = await model.generateContent(prompt);
     const response = result.response;
     const text = response.text();
-    const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
-    const quiz = JSON.parse(cleanedText);
-
+    // Remove code fences and trim
+    let cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
+    // Try to extract JSON object using regex
+    const match = cleanedText.match(/\{[\s\S]*\}/);
+    if (match) {
+      cleanedText = match[0];
+    }
+    // Remove trailing commas (common LLM issue)
+    cleanedText = cleanedText.replace(/,\s*([}\]])/g, "$1");
+    let quiz;
+    try {
+      quiz = JSON.parse(cleanedText);
+    } catch (parseError) {
+      console.error("Raw model response (for debugging):", text);
+      throw new Error("Failed to parse quiz JSON. Please try again.");
+    }
+    if (!quiz.questions) {
+      throw new Error("Quiz JSON does not contain questions array.");
+    }
     return quiz.questions;
   } catch (error) {
     console.error("Error generating quiz:", error);
