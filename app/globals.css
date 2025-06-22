@@ -125,14 +125,19 @@ body {
   }
 }
 
+@layer components {
+  .glass {
+    @apply bg-white/5 backdrop-blur-lg;
+  }
+}
 @layer utilities {
-  .gradient {
+  /* .gradient {
     @apply bg-gradient-to-b from-gray-400 via-gray-200 to-gray-600;
   }
   .gradient-title {
     @apply font-extrabold tracking-tighter text-transparent bg-clip-text pb-2 pr-2;
     background-image: linear-gradient(to bottom, #9ca3af, #e5e7eb, #4b5563);
-  }
+  } */
 }
 
 .hero-image-wrapper {
@@ -174,4 +179,35 @@ body {
   width: 100%;
   height: 100%;
   background: radial-gradient(circle, transparent, rgba(0, 0, 0, 0.9));
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.5);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.7);
+}
+
+/* Smooth animations */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Custom gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

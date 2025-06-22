@@ -107,6 +107,7 @@ export function EntryForm({ type, entries, onChange }) {
                 size="icon"
                 type="button"
                 onClick={() => handleDelete(index)}
+                className="bg-blue-500 hover:bg-blue-600"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -220,6 +221,7 @@ export function EntryForm({ type, entries, onChange }) {
               disabled={
                 improveWIthAIMutation.isPending || !watch("description")
               }
+              className="bg-blue-500 hover:bg-blue-600"
             >
               {improveWIthAIMutation.isPending ? (
                 <>
@@ -242,10 +244,15 @@ export function EntryForm({ type, entries, onChange }) {
                 reset();
                 setIsAdding(false);
               }}
+              className="bg-blue-500 hover:bg-blue-600"
             >
               Cancel
             </Button>
-            <Button type="button" onClick={handleAdd}>
+            <Button
+              type="button"
+              onClick={handleAdd}
+              className="bg-blue-500 hover:bg-blue-600"
+            >
               <PlusCircle className="h-4 w-4 mr-2" />
               Add Entry
             </Button>
@@ -255,7 +262,7 @@ export function EntryForm({ type, entries, onChange }) {
 
       {!isAdding && (
         <Button
-          className="w-full"
+          className="w-full bg-blue-500 hover:bg-blue-600"
           variant="outline"
           onClick={() => setIsAdding(true)}
         >

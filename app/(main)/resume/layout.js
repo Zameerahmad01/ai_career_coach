@@ -1,11 +1,15 @@
-import { BarLoader } from "react-spinners";
+import { CircleLoader } from "react-spinners";
 import { Suspense } from "react";
 
 export default function Layout({ children }) {
   return (
-    <div className="px-5">
+    <div className="px-5 container mx-auto">
       <Suspense
-        fallback={<BarLoader className="mt-4" width={"100%"} color="gray" />}
+        fallback={
+          <div className="h-[100vh] flex items-center justify-center">
+            <CircleLoader color="white" />
+          </div>
+        }
       >
         {children}
       </Suspense>
