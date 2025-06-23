@@ -27,6 +27,7 @@ model User {
   // Relations
   skills        String[]  // Array of skills
   assessments   Assessment[]
+  Interviews  Interview[]
   resume        Resume?
   coverLetter   CoverLetter[]
 }
@@ -39,6 +40,23 @@ model Assessment {
   questions     Json[]    // Array of {question, answer, userAnswer, isCorrect}
   category      String    // "Technical", "Behavioral", etc.
   improvementTip String?  // AI-generated improvement tip
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+model Interview{
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  role          String    // Role for the interview (e.g., "Software Engineer", "Data Scientist")
+  level         String    // "Beginner", "Intermediate", "Advanced"
+  type          String    // "Technical", "Behavioral", etc.
+  techStack     String[]   // Specific tech stack (e.g., "JavaScript", "Python")
+  questions     String[]    // Array 
+  score         Float?    // Overall score
+  feedback      String?   // AI-generated feedback
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
