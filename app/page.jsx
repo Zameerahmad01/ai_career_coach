@@ -5,8 +5,10 @@ import TestimonialsSection from "../components/sections/TestimonialsSection";
 import FAQSection from "../components/sections/FAQSection";
 import CTASection from "../components/sections/CTASection";
 import Features from "../components/sections/Features";
+import { checkUser } from "@/lib/checkUser";
 
-export default function Home() {
+export default async function Home() {
+  const user = await checkUser();
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       <main>
