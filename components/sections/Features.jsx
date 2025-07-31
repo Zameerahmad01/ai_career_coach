@@ -26,8 +26,9 @@ function Features() {
               </h3>
             </div>
             <p className="text-sm text-gray-400">
-              Get instant AI-powered career insights and personalized
-              recommendations within seconds of input.
+              Instantly generate AI-powered resumes, cover letters, and
+              interview prep using Google's Gemini API for rapid, tailored
+              career materials.
             </p>
           </div>
 
@@ -41,8 +42,9 @@ function Features() {
               </h3>
             </div>
             <p className="text-sm text-gray-400">
-              Sophisticated machine learning algorithms analyze market trends
-              and career trajectories for optimal guidance.
+              Advanced Gemini AI analyzes your experience, skills, and job goals
+              to deliver hyper-personalized recommendations and actionable
+              feedback.
             </p>
           </div>
 
@@ -56,8 +58,9 @@ function Features() {
               </h3>
             </div>
             <p className="text-sm text-gray-400">
-              Bank-level encryption and privacy protection ensure your
-              professional data remains completely confidential.
+              Secure authentication with Clerk and robust data protection.
+              Background tasks (like weekly industry insights) handled safely
+              with Inngest.
             </p>
           </div>
 
@@ -71,8 +74,8 @@ function Features() {
               </h3>
             </div>
             <p className="text-sm text-gray-400">
-              Customized career roadmaps based on your unique skills,
-              experience, and professional aspirations.
+              Realistic, voice-based mock interviews powered by Vapi AI agents,
+              tailored to your target job roles and industries.
             </p>
           </div>
 
@@ -86,8 +89,9 @@ function Features() {
               </h3>
             </div>
             <p className="text-sm text-gray-400">
-              Comprehensive tracking of career milestones with detailed
-              performance metrics and achievement insights.
+              Automated, role-specific technical and behavioral interview
+              questions generated with Gemini API. Track your progress and get
+              analytics with Prisma + Neon PostgreSQL.
             </p>
           </div>
 
@@ -101,8 +105,9 @@ function Features() {
               </h3>
             </div>
             <p className="text-sm text-gray-400">
-              Stay ahead with predictive insights on emerging skills, industry
-              shifts, and future career opportunities.
+              Weekly, AI-curated industry insights and emerging skill trends
+              delivered right to your dashboard. Beautiful, intuitive UI with
+              Tailwind CSS and Shadcn.
             </p>
           </div>
         </div>

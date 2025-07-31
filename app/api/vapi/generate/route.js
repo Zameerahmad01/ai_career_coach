@@ -51,12 +51,13 @@ export async function POST(request) {
       parsedData = cleanedText;
     }
 
+    const formattedTechStack = techstack.split(",").map((tech) => tech.trim());
     const interview = await db.interview.create({
       data: {
         role,
         level,
         type,
-        techStack: techstack,
+        techStack: formattedTechStack,
         questions: parsedData,
         userId: userid,
       },
