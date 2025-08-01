@@ -13,7 +13,7 @@ export async function GET() {
 }
 
 export async function POST(request) {
-  const { role, level, amount, techstack, userid, type } = await request.json();
+  const { role, level, amount, userid, techstack, type } = await request.json();
 
   const prompt = `Prepare questions for a job interview.
         The job role is ${role}.
@@ -52,6 +52,11 @@ export async function POST(request) {
     }
 
     const formattedTechStack = techstack.split(",").map((tech) => tech.trim());
+    const user = await db.user.findUnique({
+      where: {
+        clerkUserId: userid,
+      },
+    });
     const interview = await db.interview.create({
       data: {
         role,
@@ -59,7 +64,7 @@ export async function POST(request) {
         type,
         techStack: formattedTechStack,
         questions: parsedData,
-        userId: userid,
+        userId: user.id,
       },
     });
 
