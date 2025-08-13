@@ -90,7 +90,7 @@ const Agent = ({ userName, userId, userImg, type, interviewId, questions }) => {
   useEffect(() => {
     if (callStatus === CallStatus.ENDED) {
       if (type === "generate") {
-        router.push("/interview");
+        router.push("/interview/mock");
       } else {
         handleFeedback();
       }
@@ -143,7 +143,7 @@ const Agent = ({ userName, userId, userImg, type, interviewId, questions }) => {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10 mt-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10 mt-10">
         <div className=" relative border-2 border-gray-200 rounded-3xl flex flex-col items-center justify-center py-16  bg-gradient-to-b from-[#1A1C20] to-[#08090D];">
           <div className="flex items-center justify-center relative">
             <Image
@@ -196,14 +196,14 @@ const Agent = ({ userName, userId, userImg, type, interviewId, questions }) => {
           <Button
             variant={"destructive"}
             onClick={handleDisconnect}
-            className="px-6"
+            className="px-8 py-2 text-lg"
           >
             End
           </Button>
         ) : (
           <Button
             onClick={handleCall}
-            className="relative px-8 text-md bg-green-500 hover:bg-green-600"
+            className="relative px-8 text-lg bg-green-500 hover:bg-green-600 py-2"
           >
             <span
               className={cn(

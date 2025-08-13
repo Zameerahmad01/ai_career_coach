@@ -16,8 +16,10 @@ const InterviewPage = async () => {
         Interview Preparation
       </h1>
       <div className="flex flex-col md:flex-row items-start gap-4">
-        <Button>New Quiz</Button>
-        <Link href="/interview/ai-agent">
+        <Link href="/interview/quiz">
+          <Button>New Quiz</Button>
+        </Link>
+        <Link href="/interview/mock">
           <Button className="bg-white hover:bg-gray-300 text-black">
             <StarsIcon className="w-4 h-4 mr-2" />
             Interview with AI Agent

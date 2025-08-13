@@ -56,7 +56,20 @@ model Interview{
   techStack     String[]   // Specific tech stack (e.g., "JavaScript", "Python")
   questions     String[]    // Array 
   score         Float?    // Overall score
-  feedback      String?   // AI-generated feedback
+  feedback      Feedback?   // AI-generated feedback
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+model Feedback {
+  id            String    @id @default(cuid())
+  userId        String
+  interviewId   String    @unique
+  interview     Interview @relation(fields: [interviewId], references: [id])
+  score         Float?
+  feedback      String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 

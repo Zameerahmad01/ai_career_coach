@@ -179,3 +179,141 @@ export async function getAssessments() {
     throw new Error("Failed  to get assessments");
   }
 }
+
+export async function getInterviews() {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const user = await db.user.findUnique({
+    where: { clerkUserId: userId },
+    select: {
+      id: true,
+      industry: true,
+      skills: true,
+    },
+  });
+
+  if (!user) throw new Error("User not found");
+
+  try {
+    const assessments = await db.Interview.findMany({
+      where: {
+        userId: user.id,
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+
+    return assessments;
+  } catch (error) {
+    console.error("Error getting interviews:", error);
+    throw new Error("Failed  to get interviews");
+  }
+}
+
+export const getInterviewById = async (id) => {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const user = await db.user.findUnique({
+    where: { clerkUserId: userId },
+    select: {
+      id: true,
+      industry: true,
+      skills: true,
+    },
+  });
+
+  if (!user) throw new Error("User not found");
+
+  try {
+    const interview = await db.Interview.findUnique({
+      where: {
+        id,
+        userId: user.id,
+      },
+    });
+
+    return interview;
+  } catch (error) {
+    console.error("Error getting interview:", error);
+    throw new Error("Failed  to get interview");
+  }
+};
+
+export const generateFeedback = async (params) => {
+  const { interviewId, transcript, feedbackId } = params;
+
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const user = await db.user.findUnique({
+    where: { clerkUserId: userId },
+    select: {
+      id: true,
+      industry: true,
+      skills: true,
+    },
+  });
+
+  if (!user) throw new Error("User not found");
+
+  try {
+    const formattedTranscript = transcript.map(
+      (sentence) => `- ${sentence.role}: ${sentence.content}\n`
+    );
+
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: `
+        You are an AI interviewer analyzing a mock interview. Your task is to evaluate the candidate based on structured categories. Be thorough and detailed in your analysis. Don't be lenient with the candidate. If there are mistakes or areas for improvement, point them out.
+        Transcript:
+        ${formattedTranscript}
+  
+        Please score the candidate from 0 to 100 in the following areas. Do not add categories other than the ones provided:
+        - **Communication Skills**: Clarity, articulation, structured responses.
+        - **Technical Knowledge**: Understanding of key concepts for the role.
+        - **Problem-Solving**: Ability to analyze problems and propose solutions.
+        - **Cultural & Role Fit**: Alignment with company values and job role.
+        - **Confidence & Clarity**: Confidence in responses, engagement, and clarity.
+        `,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            score: {
+              type: Type.STRING,
+            },
+            feedback: {
+              type: Type.STRING,
+            },
+          },
+          propertyOrdering: ["score", "feedback"],
+        },
+      },
+    });
+
+    const interview = await db.Interview.findUnique({
+      where: {
+        id: interviewId,
+        userId: user.id,
+      },
+    });
+
+    const feedback = await db.feedback.create({
+      data: {
+        userId: user.id,
+        interviewId: interview.id,
+        score: response.score,
+        feedback: response.feedback,
+      },
+    });
+
+    return feedback;
+  } catch (error) {
+    console.error("Error getting interview:", error);
+    throw new Error("Failed  to get interview");
+  }
+};
