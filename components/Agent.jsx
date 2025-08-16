@@ -17,7 +17,15 @@ const CallStatus = {
   ENDED: "ENDED",
 };
 
-const Agent = ({ userName, userId, userImg, type, interviewId, questions }) => {
+const Agent = ({
+  userName,
+  userId,
+  userImg,
+  type,
+  interviewId,
+  questions,
+  feedbackID,
+}) => {
   const router = useRouter();
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [callStatus, setCallStatus] = useState(CallStatus.INACTIVE);
@@ -76,7 +84,7 @@ const Agent = ({ userName, userId, userImg, type, interviewId, questions }) => {
     const { success, feedbackId } = await generateFeedback({
       interviewId: interviewId,
       transcript: messages,
-      userId: userId,
+      feedbackId: feedbackID,
     });
 
     if (success && feedbackId) {

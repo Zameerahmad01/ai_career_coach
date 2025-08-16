@@ -3,6 +3,9 @@
 import { model } from "@/lib/ai";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
+import { GoogleGenAI } from "@google/genai";
+
+const ai = new GoogleGenAI({});
 
 export async function generateQuiz() {
   const { userId } = await auth();
@@ -203,6 +206,9 @@ export async function getInterviews() {
       orderBy: {
         createdAt: "asc",
       },
+      include: {
+        feedback: true,
+      },
     });
 
     return assessments;
@@ -232,6 +238,9 @@ export const getInterviewById = async (id) => {
       where: {
         id,
         userId: user.id,
+      },
+      include: {
+        feedback: true,
       },
     });
 
@@ -271,49 +280,112 @@ export const generateFeedback = async (params) => {
         Transcript:
         ${formattedTranscript}
   
-        Please score the candidate from 0 to 100 in the following areas. Do not add categories other than the ones provided:
-        - **Communication Skills**: Clarity, articulation, structured responses.
-        - **Technical Knowledge**: Understanding of key concepts for the role.
-        - **Problem-Solving**: Ability to analyze problems and propose solutions.
-        - **Cultural & Role Fit**: Alignment with company values and job role.
-        - **Confidence & Clarity**: Confidence in responses, engagement, and clarity.
+        Please provide:
+        1. An overall score from 0-100
+        2. Detailed feedback covering:
+           - Communication Skills
+           - Technical Knowledge
+           - Problem-Solving
+           - Cultural & Role Fit
+           - Confidence & Clarity
         `,
       config: {
         responseMimeType: "application/json",
         responseSchema: {
-          type: Type.OBJECT,
+          type: "object",
           properties: {
             score: {
-              type: Type.STRING,
+              type: "number",
+              description: "Overall score out of 100",
             },
-            feedback: {
-              type: Type.STRING,
+            finalAssessment: {
+              type: "array",
+              items: {
+                type: "string",
+              },
+              description: "Detailed feedback about the interview performance",
+            },
+            strengths: {
+              type: "array",
+              items: {
+                type: "string",
+              },
+              description: "Strengths of the candidate",
+            },
+            areasForImprovement: {
+              type: "array",
+              items: {
+                type: "string",
+              },
+              description: "Areas for improvement of the candidate",
             },
           },
-          propertyOrdering: ["score", "feedback"],
+          required: [
+            "score",
+            "finalAssessment",
+            "strengths",
+            "areasForImprovement",
+          ],
         },
       },
     });
 
-    const interview = await db.Interview.findUnique({
-      where: {
-        id: interviewId,
-        userId: user.id,
-      },
-    });
+    const data = await JSON.parse(response.candidates[0].content.parts[0].text);
 
-    const feedback = await db.feedback.create({
-      data: {
+    if (feedbackId) {
+      const feedback = await db.feedback.update({
+        where: {
+          id: feedbackId,
+        },
+        data: {
+          score: score,
+          feedback: data,
+        },
+      });
+      return { success: true, feedbackId: feedback.id };
+    } else {
+      const feedback = await db.feedback.create({
+        data: {
+          userId: userId,
+          interviewId: interviewId,
+          score: score,
+          feedback: data,
+        },
+      });
+      return { success: true, feedbackId: feedback.id };
+    }
+  } catch (error) {
+    console.error("Error generating feedback:", error);
+    return { error: "Failed to generate feedback" };
+  }
+};
+
+export const getFeedbackByInterviewId = async (interviewId) => {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const user = await db.user.findUnique({
+    where: { clerkUserId: userId },
+    select: {
+      id: true,
+      industry: true,
+      skills: true,
+    },
+  });
+
+  if (!user) throw new Error("User not found");
+
+  try {
+    const feedback = await db.feedback.findUnique({
+      where: {
+        interviewId: interviewId,
         userId: user.id,
-        interviewId: interview.id,
-        score: response.score,
-        feedback: response.feedback,
       },
     });
 
     return feedback;
   } catch (error) {
-    console.error("Error getting interview:", error);
-    throw new Error("Failed  to get interview");
+    console.error("Error getting feedback:", error);
+    throw new Error("Failed  to get feedback");
   }
 };

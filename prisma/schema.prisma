@@ -69,7 +69,7 @@ model Feedback {
   interviewId   String    @unique
   interview     Interview @relation(fields: [interviewId], references: [id])
   score         Float?
-  feedback      String?
+  feedback      Json?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 

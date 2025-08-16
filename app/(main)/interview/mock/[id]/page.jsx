@@ -1,6 +1,9 @@
 import Agent from "@/components/Agent";
 import { currentUser } from "@clerk/nextjs/server";
-import { getInterviewById } from "@/actions/interview";
+import {
+  getFeedbackByInterviewId,
+  getInterviewById,
+} from "@/actions/interview";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -13,10 +16,7 @@ const page = async ({ params }) => {
     redirect("/");
   }
 
-  //   const feedback = await getFeedbackByInterviewId({
-  //     interviewId: id,
-  //     userId: user?.id!,
-  //   });
+  const feedback = await getFeedbackByInterviewId(interview.id);
   return (
     <>
       <div className="flex flex-row gap-4 justify-between">
@@ -44,7 +44,7 @@ const page = async ({ params }) => {
         interviewId={id}
         type="interview"
         questions={interview.questions}
-        // feedbackId={feedback?.id}
+        feedbackID={feedback?.id}
       />
     </>
   );

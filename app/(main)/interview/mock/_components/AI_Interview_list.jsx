@@ -13,7 +13,7 @@ import {
 
 export default function AIInterviewList({ interviews }) {
   const router = useRouter();
-
+  console.log(interviews);
   return (
     <>
       <Card>
@@ -34,7 +34,7 @@ export default function AIInterviewList({ interviews }) {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {interviews?.map((interview, i) => (
+            {interviews?.map((interview) => (
               <Card
                 key={interview.id}
                 className=" hover:bg-muted/50 transition-colors"
@@ -65,8 +65,8 @@ export default function AIInterviewList({ interviews }) {
                     <div className="space-y-2">
                       <p>
                         Score :{" "}
-                        {interview.quizScore
-                          ? `${interview.score}/100`
+                        {interview.feedback?.score
+                          ? `${interview.feedback.score}/100`
                           : "--/100"}
                       </p>
                       <p>Questions : {interview.questions.length}</p>
@@ -74,7 +74,11 @@ export default function AIInterviewList({ interviews }) {
                     <Button
                       className="cursor-pointer"
                       onClick={() =>
-                        router.push(`/interview/mock/${interview.id}`)
+                        interview.feedback
+                          ? router.push(
+                              `/interview/mock/${interview.id}/feedback`
+                            )
+                          : router.push(`/interview/mock/${interview.id}`)
                       }
                     >
                       {interview.feedback ? "View Feedback" : "Start Interview"}
